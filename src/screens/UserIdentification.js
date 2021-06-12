@@ -7,24 +7,27 @@ import { Button } from '../components/Button';
 
 
 
+
 export function UserIdentification() {
 
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
 
-    const sendData = () => {
+    /*const sendData = () => {
         api.post('/users/',
             {
                 "email": email,
                 "password": pass
-            }).then(                
-                response =>{
-                    console.log(response.config.data)
+            }).then(
+                response => {
+                    console.log(response)
                 }
-            ).catch(err => {
-                console.log(err)
+            ).catch(error =>{
+                console.log('Error', error.response.status)
             })
-    }
+    }*/
+
+    
 
 
     return (
@@ -69,60 +72,60 @@ export function UserIdentification() {
 }
 
 
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-        },
-        form: {
-            resizeMode: 'center',
-            ...Platform.select({
-                ios: {
-                    height: Dimensions.get('window').width * 0.7,
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    form: {
+        resizeMode: 'center',
+        ...Platform.select({
+            ios: {
+                height: Dimensions.get('window').width * 0.7,
 
-                },
-                android: {
-                    height: Dimensions.get('window').width * 0.5,
+            },
+            android: {
+                height: Dimensions.get('window').width * 0.5,
 
-                },
-                default: {
-                    height: '100%',
-                    width: '100%',
-                }
-            })
+            },
+            default: {
+                height: '100%',
+                width: '100%',
+            }
+        })
 
-        },
-        tittle: {
-            fontSize: 32,
-            marginTop: 80,
-            textAlign: 'center',
-            lineHeight: 36
-        },
-        input: {
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderBottomWidth: 1,
-            borderColor: '#808080',
-            fontSize: 18,
-            textAlign: 'center',
+    },
+    tittle: {
+        fontSize: 32,
+        marginTop: 80,
+        textAlign: 'center',
+        lineHeight: 36
+    },
+    input: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderBottomWidth: 1,
+        borderColor: '#808080',
+        fontSize: 18,
+        textAlign: 'center',
 
-        },
-        form: {
-            flexDirection: "row",
-            alignItems: 'center',
-            marginHorizontal: 40,
-            borderWidth: 1,
-            marginTop: 15,
-            marginVertical: 20,
-            paddingHorizontal: 10,
-            borderRadius: 50,
-            borderColor: '#1877F2',
-            paddingVertical: 2
+    },
+    form: {
+        flexDirection: "row",
+        alignItems: 'center',
+        marginHorizontal: 40,
+        borderWidth: 1,
+        marginTop: 15,
+        marginVertical: 20,
+        paddingHorizontal: 10,
+        borderRadius: 50,
+        borderColor: '#1877F2',
+        paddingVertical: 2
 
-        },
-        positionBtn: {
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 30
-        },
-    })
+    },
+    positionBtn: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 30
+    },
+})

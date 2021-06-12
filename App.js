@@ -1,31 +1,33 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { useFonts, Jost_400Regular, Jost_600SemiBold } from '@expo-google-fonts/jost'
+import Apploading from 'expo-app-loading';
+import {AuthProvider} from './src/contexts/context'
 
-import { UserIdentification } from './src/screens/UserIdentification';
-
-
-const stack = createStackNavigator();
+import Routes from './src/routes/index'
 
 export default function App() {
+
+  const [fontsLoaded] = useFonts({
+    Jost_400Regular,
+    Jost_600SemiBold
+  });
+
+  if (!fontsLoaded)
+    return <Apploading />
+
   return (
+
     <NavigationContainer>
-      <stack.Navigator headerMode="none" screenOptions={{ cardStyle: { backgroundColor: '#FFF' } }}>
-
-
-        <stack.Screen name="UserIdentification" component={UserIdentification} />
-
-      </stack.Navigator>
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
+        
+    
     </NavigationContainer>
+
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+

@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, TouchableOpacityProps } from 'react-native';
-//import fonts from '../styles/fonts';
+import fonts from '../styles/fonts';
 
 
 interface ButtonProps extends TouchableOpacityProps {
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'center',
         color: '#FFF',
-        //fontFamily: fonts.complement
+        fontFamily: fonts.complement
 
     },
     button: {
@@ -33,11 +33,13 @@ const styles = StyleSheet.create({
         marginBottom: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 16,
+        borderRadius: 50,
         borderColor: '#1E90FF',
         height: 50,
         backgroundColor: '#1E90FF',
-        paddingHorizontal: 10
+        paddingHorizontal: 10,
+        width: 325,
+        fontFamily: fonts.heading
     }
 
 
