@@ -41,7 +41,7 @@ export function Routes() {
           {
             iconName = 'home'
           }
-          else if(route.name == 'Qr')
+          else if(route.name == 'QrCode')
           {
             iconName = 'qr-code'
           }
@@ -57,7 +57,7 @@ export function Routes() {
         }
       })}>
         <AppStack.Screen name="Dashboard" component={DashboardUser} />
-        <AppStack.Screen name="Qr" component={Qr} />
+        <AppStack.Screen name="QrCode" component={Qr} />
         <AppStack.Screen name="Dados" component={CadUserData} />
         <AppStack.Screen name="Logout" component={Logout} />
       </AppStack.Navigator>

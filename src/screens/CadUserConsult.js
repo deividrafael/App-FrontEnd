@@ -27,8 +27,7 @@ export function CadUserConsult() {
         const res = AsyncStorage.getItem('@QrApi:user').then((value) => {
             const data = JSON.parse(value);
             setEmail(data.email);
-            loadData();
-
+          
 
         })
 
@@ -36,7 +35,7 @@ export function CadUserConsult() {
 
     async function loadData() {
         try {
-            const response = await api.get(`/users/tes@tes`)
+            const response = await api.get(`/users/${email}`)
                 .then(response => {
                     const res = response.data
                     setName(res.name)
@@ -54,9 +53,7 @@ export function CadUserConsult() {
 
     }
 
-    useEffect(() => {
-        loadData();
-    }, [])
+ 
 
 
 
