@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput, Alert, ScrollView } from 'react-native';
+import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput, Alert, ScrollView, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import fonts from '../styles/fonts';
 import { Button } from '../components/Button'
@@ -15,6 +14,7 @@ export function CadUser() {
     const [confemail, setConfEmail] = useState('');
     const [pass, setPass] = useState('');
     const [confpass, setConfPass] = useState('');
+    const [load, setLoad] = useState(true);
 
     const handleCad = () => {
         if (name === "") {
@@ -57,7 +57,8 @@ export function CadUser() {
                         ],
                         { cancelable: false }
                     )
-                }
+                },
+                setLoad(false)
 
             ).catch(error => {
                 Alert.alert(
@@ -69,6 +70,7 @@ export function CadUser() {
                     ],
                     { cancelable: false }
                 );
+                setLoad(true)
             })
     }
 
@@ -76,83 +78,108 @@ export function CadUser() {
         navigation.navigate('LoginUser')
     }
 
-    return (
-
-        <ScrollView style={styles.container}>
-            <View style={styles.container}>
-
-                <View >
-                    <Text style={styles.positionText}>Cadastre se no QR Saude e ganhe{'\n'} mais tempo no seu atendimento!</Text>
-                </View>
-
-                <TextInput
-                    placeholder='Nome'
-                    style={styles.form}
-                    autoCapitalize='words'
-                    onChangeText={setName}
-
+    if (!load) {
+        return (
+            <View style={styles.containerLoad}>
+                <ActivityIndicator
+                    size="large"
+                    color='#1877F2'
                 />
-
-                <TextInput
-                    placeholder='Email'
-                    style={styles.form}
-                    autoCapitalize='none'
-                    keyboardType='email-address'
-                    onChangeText={setEmail}
-                />
+            </View>
+        )
 
 
-                <TextInput
-                    placeholder='Confirme se email'
-                    style={styles.form}
-                    autoCapitalize='none'
-                    keyboardType='email-address'
-                    onChangeText={setConfEmail}
-                />
+    } else {
 
-                <TextInput
-                    placeholder='Senha'
-                    style={styles.form}
-                    secureTextEntry
-                    onChangeText={setPass}
 
-                />
+        return (
 
-                <TextInput
-                    placeholder='Confirme a senha'
-                    style={styles.form}
-                    secureTextEntry
-                    onChangeText={setConfPass}
+            <ScrollView style={styles.container}>
+                <View style={styles.container}>
 
-                />
+                    <View >
+                        <Text style={styles.positionText}>Cadastre se no QR Saude e ganhe{'\n'} mais tempo no seu atendimento!</Text>
+                    </View>
 
-                <View style={styles.positionBtn}>
-                    <Button
-                        title='Confirmar'
-                        onPress={handleCad}
+
+                    <TextInput
+                        placeholder='Nome'
+                        style={styles.form}
+                        autoCapitalize='words'
+                        onChangeText={setName}
+
                     />
+
+                    <TextInput
+                        placeholder='Email'
+                        style={styles.form}
+                        autoCapitalize='none'
+                        keyboardType='email-address'
+                        onChangeText={setEmail}
+                    />
+
+
+                    <TextInput
+                        placeholder='Confirme se email'
+                        style={styles.form}
+                        autoCapitalize='none'
+                        keyboardType='email-address'
+                        onChangeText={setConfEmail}
+                    />
+
+                    <TextInput
+                        placeholder='Senha'
+                        style={styles.form}
+                        secureTextEntry
+                        onChangeText={setPass}
+
+                    />
+
+                    <TextInput
+                        placeholder='Confirme a senha'
+                        style={styles.form}
+                        secureTextEntry
+                        onChangeText={setConfPass}
+
+                    />
+
+
+                    <View style={styles.positionBtn}>
+                        <Button
+                            title='Confirmar'
+                            onPress={handleCad}
+                        />
+                    </View >
+
+                    <View style={styles.positionBtnSocial}>
+                        <TouchableOpacity
+                            onPress={handleLogin}
+                        >
+                            <Text style={styles.textCad}>Faça Login!</Text>
+                        </TouchableOpacity>
+                    </View>
+
+
+
+
+
                 </View >
 
-                <View style={styles.positionBtnSocial}>
-                    <TouchableOpacity
-                        onPress={handleLogin}
-                    >
-                        <Text style={styles.textCad}>Faça Login!</Text>
-                    </TouchableOpacity>
-                </View>
+            </ScrollView >
 
-
-            </View >
-
-        </ScrollView >
-
-    );
+        );
+    }
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+
+    },
+    containerLoad: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
 
     },
     positionText: {

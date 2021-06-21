@@ -1,32 +1,14 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { Dimensions, StyleSheet, View, Text, Image, SafeAreaView, Platform, TouchableOpacity } from 'react-native';
 
 import { Button } from '../components/Button'
 import fonts from '../styles/fonts';
 import { useNavigation } from '@react-navigation/core';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 
 export function Welcome() {
 
     const navigation = useNavigation();
-
-   /* const detectLogin = async () => {
-        const token = await AsyncStorage.getItem('@QrApi:token')
-        if (token) {
-          setLogged(true)
-        } else {
-          setLogged(false)
-        }
-    
-      }
-    
-      useEffect(() => {
-    
-        detectLogin()
-    
-      }, [])*/
 
     function handleLogin() {
         navigation.navigate('LoginUser');

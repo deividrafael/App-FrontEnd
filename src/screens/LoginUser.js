@@ -1,6 +1,6 @@
-import React, { useState, useContext, useEffect, Component} from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput, Alert, ScrollView } from 'react-native'
-import { useNavigation } from '@react-navigation/core';
+import React, { useState } from 'react';
+import { Text, View, StyleSheet, Image, TouchableOpacity, TextInput, Alert, ScrollView, KeyboardAvoidingView, ActivityIndicator } from 'react-native'
+//import { useNavigation } from '@react-navigation/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -9,15 +9,16 @@ import { Button } from '../components/Button'
 import api from '../services/api'
 
 
-export function LoginUser () {
+export function LoginUser({navigation}) {
 
-    const navigation = useNavigation();
+
     const [email, setEmail] = useState('')
     const [pass, setPass] = useState('');
     const [user, setUser] = useState('');
+    const [load, setLoad] = useState(true);
 
     const handleCad = () => {
-        navigation.replace('CadUser')
+        navigation.navigate('CadUser')
     }
 
     const handleLogin = async () => {
@@ -34,15 +35,14 @@ export function LoginUser () {
                             ['@QrApi:user', JSON.stringify(res.data.user)]
 
                         ])
-                        navigation.replace('DashboardUser')
-                        console.log(user)
+                        navigation.navigate('Tabs')
+                        //console.log(user)
                         setUser({ user })
-                        Alert.alert(`Seja bem vindo ${user.name}`)
-
                     } catch (res) {
                         console.log(res.data.error)
                     }
-                }
+                },
+                setLoad(false)
             ).catch(error => {
                 Alert.alert(
                     "Erro",
@@ -53,71 +53,97 @@ export function LoginUser () {
                     ],
                     { cancelable: false }
                 );
+                setLoad(true)
             })
+            
 
     };
 
-
-    return (
-
-        <ScrollView style={styles.container}>
-            <View style={styles.container}>
-
-                <View style={styles.positionLogo}>
-                    <Image style={styles.logo} source={require('../assets/logo.png')} />
-                </View>
-
-                <TextInput
-                    placeholder='Email'
-                    style={styles.form}
-                    autoCapitalize='none'
-                    keyboardType='email-address'
-                    onChangeText={setEmail}
-                    value={email}
-
+    if (!load) {
+        return (
+            <View style={styles.containerLoad}>
+                <ActivityIndicator
+                    size="large"
+                    color='#1877F2'
                 />
-
-                <TextInput
-                    placeholder='Senha'
-                    style={styles.form}
-                    secureTextEntry
-                    onChangeText={setPass}
-                    value={pass}
-
-                />
+            </View>
+        )
 
 
-                <View style={styles.positionBtn}>
-                    <Button
-                        title='Login'
-                        onPress={handleLogin}
+    } else {
 
-                    />
+        return (
+
+            <ScrollView style={styles.container}>
+                <View style={styles.container}>
+                    <KeyboardAvoidingView
+                        behavior='position'>
+
+                        <View style={styles.positionLogo}>
+                            <Image style={styles.logo} source={require('../assets/logo.png')} />
+                        </View>
+
+                        <TextInput
+                            placeholder='Email'
+                            style={styles.form}
+                            autoCapitalize='none'
+                            keyboardType='email-address'
+                            onChangeText={setEmail}
+                            value={email}
+
+                        />
+
+                        <TextInput
+                            placeholder='Senha'
+                            style={styles.form}
+                            secureTextEntry
+                            onChangeText={setPass}
+                            value={pass}
+
+                        />
+
+
+                        <View style={styles.positionBtn}>
+                            <Button
+                                title='Login'
+                                onPress={handleLogin}
+
+                            />
+                        </View >
+                    </KeyboardAvoidingView>
+
+
+
+                    <View style={styles.positionBtnSocial}>
+                        <TouchableOpacity>
+                            <Text style={styles.textCad}>Esquci minha senha</Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.positionBtnSocial}>
+                        <TouchableOpacity onPress={handleCad}>
+                            <Text style={styles.textCad}>Não tem uma conta? Cadastre-se</Text>
+                        </TouchableOpacity>
+                    </View>
+
                 </View >
 
-                <View style={styles.positionBtnSocial}>
-                    <TouchableOpacity>
-                        <Text style={styles.textCad}>Esquci minha senha</Text>
-                    </TouchableOpacity>
-                </View>
+            </ScrollView>
 
-                <View style={styles.positionBtnSocial}>
-                    <TouchableOpacity onPress={handleCad}>
-                        <Text style={styles.textCad}>Não tem uma conta? Cadastre-se</Text>
-                    </TouchableOpacity>
-                </View>
-
-            </View >
-
-        </ScrollView>
-
-    );
+        );
+    }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
+
+    },
+    containerLoad: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
 
     },
     positionLogo: {
@@ -131,7 +157,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: 254,
         height: 156,
-        marginBottom: 70
+        marginBottom: 20
 
     },
     positionBtn: {

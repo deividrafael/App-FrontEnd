@@ -3,30 +3,34 @@ import { View, StyleSheet, Text, Image, } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+
 import fonts from '../styles/fonts';
-import { Button } from '../components/Button'
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import api from '../services/api';
+import {AuthRoutes} from '../routes/auth.routes'
 
 
-export function DashboardUser() {
+export function DashboardUser({navigation}) {
 
-    const navigation = useNavigation();
+    const [user, setUser] = useState('');
+    
+
+    useEffect(() => {
+        const res = AsyncStorage.getItem('@QrApi:user').then((value) => {
+            const data = JSON.parse(value);
+            setUser(data.name);
+        })
+
+    }, [])
+
 
     function handleQr() {
         navigation.navigate('Qr');
 
     }
 
-
-    
-
-  
-
     const handleLogout = async () => {
         await AsyncStorage.removeItem('@QrApi:token').then(() => {
-            navigation.replace('LoginUser');
-            //console.log(AsyncStorage.getItem('@QrApi:token'))
+            navigation.navigate('Welcome');
         })
 
     }
@@ -36,16 +40,20 @@ export function DashboardUser() {
 
     }
 
+    function handleData() {
+        navigation.replace('CaduserConsult');
+
+    }
+
+
+
     return (
 
         <View style={styles.container}>
 
             <View style={styles.dashboard}>
 
-                <TouchableOpacity onPress={handleLogout}>
-                    <Text> Logout </Text>
 
-                </TouchableOpacity>
                 <View>
 
                     <TouchableOpacity>
@@ -59,11 +67,10 @@ export function DashboardUser() {
                 </View>
 
                 <View>
-                    <Text style={styles.dashLegendaHome}>Bem vindo { }</Text>
+                    <Text style={styles.dashLegendaHome}>Bem vindo {user}</Text>
                 </View>
 
             </View>
-
 
 
             <View style={styles.dashBack}>
@@ -72,7 +79,7 @@ export function DashboardUser() {
 
                     <View style={styles.dashAreaIcons}>
 
-                        <TouchableOpacity >
+                        <TouchableOpacity onPress={handleData}>
                             <Image
                                 style={styles.image}
                                 source={require('../assets/card.png')}
@@ -99,7 +106,7 @@ export function DashboardUser() {
                         </TouchableOpacity>
 
                         <Text style={styles.dashLegenda}>
-                        Gerar QR
+                            Gerar QR
                         </Text>
 
                     </View>
@@ -167,6 +174,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
+        marginBottom: 100
     },
     dashAreaIcons: {
         width: 226,
@@ -174,11 +182,25 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 30,
-        padding: 10,
-        borderRadius: 10
+        margin: 5,
+        padding: 1,
+        borderRadius: 10,
+        marginTop: 1,
+        marginBottom: 30
 
     },
+    dashlogout: {
+        backgroundColor: '#1877F2',
+        paddingLeft:320,
+        alignItems:'center'
+
+    },
+    textCad: {
+        fontFamily: fonts.text,
+        fontSize: 15, 
+        paddingRight: 10,
+        textAlign:'center'  
+    }
 
 
 })
